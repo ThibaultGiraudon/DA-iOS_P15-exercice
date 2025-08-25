@@ -19,23 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Select Xcode Version
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: List available simulators and pick one dynamically
-        run: |
-          echo "Listing simulators..."
-          xcrun simctl list devices
-
-          # Récupère le dernier iPhone Shutdown et son UUID correct
-          SIMULATOR_ID=$(xcrun simctl list devices | grep "iPhone" | grep "Shutdown" | tail -n 1 | sed -E 's/.*\(([A-F0-9-]+)\) \(Shutdown\)/\1/')
-
-          if [ -z "$SIMULATOR_ID" ]; then
-            echo "No simulator found!"
-            exit 1
-          fi
-
-          echo "Selected simulator ID: $SIMULATOR_ID"
-          echo "SIMULATOR_ID=$SIMULATOR_ID" >> $GITHUB_ENV
+        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
 
       - name: Build and Test
         uses: sersoft-gmbh/xcodebuild-action@v3.2.0
