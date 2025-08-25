@@ -34,8 +34,8 @@ jobs:
             exit 1
           fi
 
-    echo "Selected simulator ID: $SIMULATOR_ID"
-    echo "SIMULATOR_ID=$SIMULATOR_ID" >> $GITHUB_ENV
+          echo "Selected simulator ID: $SIMULATOR_ID"
+          echo "SIMULATOR_ID=$SIMULATOR_ID" >> $GITHUB_ENV
 
       - name: Build and Test
         uses: sersoft-gmbh/xcodebuild-action@v3.2.0
