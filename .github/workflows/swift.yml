@@ -1,7 +1,10 @@
-
 name: iOS Build and Test
 
 on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -9,26 +12,49 @@ on:
 jobs:
   build-and-test:
     runs-on: macos-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: List available simulators
-        run: xcrun simctl list devices
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v3
+        with:
+          xcode-version: '15.3'
+
+      - name: List available simulators and pick one dynamically
+        run: |
+          echo "Listing simulators..."
+          xcrun simctl list devices
+
+
+          SIMULATOR_ID=$(xcrun simctl list devices | grep "iPhone" | grep "Shutdown" | grep "iOS 18" | head -n 1 | awk '{print $NF}' | tr -d '()')
+
+          echo "Selected simulator ID: $SIMULATOR_ID"
+          echo "SIMULATOR_ID=$SIMULATOR_ID" >> $GITHUB_ENV
 
       - name: Build and Test
         uses: sersoft-gmbh/xcodebuild-action@v3.2.0
         with:
           project: EPCollaboratif.xcodeproj
           scheme: EPCollaboratif
-          destination: 'platform=C707DF3C-D29E-4CA9-B02F-06CBF9E434B2'
+          destination: 'id=${{ env.SIMULATOR_ID }}'
           action: test
-          result-bundle-path: 'testResults/TestResults.xcresult'
+          result-bundle-path: 'TestResults/TestResults.xcresult'
+          build-settings: |
+            CODE_SIGNING_REQUIRED=NO
+            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGN_IDENTITY=""
 
-      - name: Print Human-Readable Test Results
+      - name: Show TestResults folder
+        run: ls -R TestResults || echo "No results found"
+
+      - name: Process Test Results
         uses: kishikawakatsumi/xcresulttool@v1
         with:
-          path: testResults/TestResults.xcresult
-          upload-bundles: false
+          path: TestResults/TestResults.xcresult
+          upload-bundles: never
+          show-passed-tests: true
+          show-code-coverage: true
         if: success() || failure()
