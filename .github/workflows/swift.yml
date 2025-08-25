@@ -26,8 +26,12 @@ jobs:
           echo "Listing simulators..."
           xcrun simctl list devices
 
+          SIMULATOR_ID=$(xcrun simctl list devices | grep "iPhone" | grep "Shutdown" | tail -n 1 | awk '{print $NF}' | tr -d '()')
 
-          SIMULATOR_ID=$(xcrun simctl list devices | grep "iPhone" | grep "Shutdown" | grep "iOS 18" | head -n 1 | awk '{print $NF}' | tr -d '()')
+          if [ -z "$SIMULATOR_ID" ]; then
+            echo "No simulator found!"
+            exit 1
+          fi
 
           echo "Selected simulator ID: $SIMULATOR_ID"
           echo "SIMULATOR_ID=$SIMULATOR_ID" >> $GITHUB_ENV
