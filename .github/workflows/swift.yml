@@ -37,11 +37,11 @@ jobs:
       - name: Listing TestResults
         run: ls TestResults/TestResults.xcresult
 
-      - name: Debug xcresulttool
+      - name: Locate xcresult
         run: |
-          pwd
-          ls -R TestResults.xcresult
-          xcrun xcresulttool get --format json --path $(pwd)/TestResults.xcresult
+          echo "Listing files after build:"
+          find . -name "*.xcresult" || echo "No xcresult found"
+
 
 
       # - name: Process Test Results
