@@ -26,15 +26,16 @@ jobs:
           echo "Listing simulators..."
           xcrun simctl list devices
 
-          SIMULATOR_ID=$(xcrun simctl list devices | grep "iPhone" | grep "Shutdown" | tail -n 1 | awk '{print $NF}' | tr -d '()')
+          # Récupère le dernier iPhone Shutdown et son UUID correct
+          SIMULATOR_ID=$(xcrun simctl list devices | grep "iPhone" | grep "Shutdown" | tail -n 1 | sed -E 's/.*\(([A-F0-9-]+)\) \(Shutdown\)/\1/')
 
           if [ -z "$SIMULATOR_ID" ]; then
             echo "No simulator found!"
             exit 1
           fi
 
-          echo "Selected simulator ID: $SIMULATOR_ID"
-          echo "SIMULATOR_ID=$SIMULATOR_ID" >> $GITHUB_ENV
+    echo "Selected simulator ID: $SIMULATOR_ID"
+    echo "SIMULATOR_ID=$SIMULATOR_ID" >> $GITHUB_ENV
 
       - name: Build and Test
         uses: sersoft-gmbh/xcodebuild-action@v3.2.0
