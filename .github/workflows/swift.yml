@@ -35,7 +35,7 @@ jobs:
             CODE_SIGN_IDENTITY=""
 
       - name: Process Test Results
-        uses: kishikawakatsumi/xcresulttool@v1
+        uses: slidoapp/xcresulttool@v3.1.0
         with:
           path: TestResults/TestResults.xcresult
           arguments: "--legacy"
