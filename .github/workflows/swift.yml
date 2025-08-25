@@ -21,6 +21,12 @@ jobs:
       - name: Select Xcode Version
         run: sudo xcode-select --switch /Applications/Xcode_16.4.app
 
+      - name: Ensure CLI tools installed
+        run: |
+          sudo xcode-select --install || true
+          xcode-select -p
+          xcrun --version
+
       - name: Build and Test
         uses: sersoft-gmbh/xcodebuild-action@v3.2.0
         with:
@@ -33,6 +39,13 @@ jobs:
             CODE_SIGNING_REQUIRED=NO
             CODE_SIGNING_ALLOWED=NO
             CODE_SIGN_IDENTITY=""
+
+      - name: Debug xcresult before processing
+        run: |
+          echo "Xcode path:" $(xcode-select -p)
+          echo "xcrun version:" $(xcrun --version)
+          ls -R TestResults || true
+          xcrun xcresulttool get --path TestResults/TestResults.xcresult || true
 
       - name: Process Test Results
         uses: kishikawakatsumi/xcresulttool@v1
