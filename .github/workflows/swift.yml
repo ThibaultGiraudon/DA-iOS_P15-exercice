@@ -28,19 +28,16 @@ jobs:
           scheme: EPCollaboratif
           destination: 'platform=iOS Simulator,name=iPhone 16,OS=18.6'
           action: test
-          result-bundle-path: 'TestResults/TestResults.xcresult'
+          result-bundle-path: 'TestResults.xcresult'
           build-settings: |
             CODE_SIGNING_REQUIRED=NO
             CODE_SIGNING_ALLOWED=NO
             CODE_SIGN_IDENTITY=""
 
-      - name: Show TestResults folder
-        run: ls -R TestResults || echo "No results found"
-
       - name: Process Test Results
         uses: kishikawakatsumi/xcresulttool@v1
         with:
-          path: TestResults/TestResults.xcresult
+          path: TestResults.xcresult
           upload-bundles: never
           show-passed-tests: true
           show-code-coverage: true
