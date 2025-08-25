@@ -42,7 +42,10 @@ jobs:
           echo "Listing files after build:"
           find . -name "*.xcresult" || echo "No xcresult found"
 
-
+      - name: Inspect xcresult
+        run: |
+          echo "Inspecting TestResults/TestResults.xcresult"
+          xcrun xcresulttool get --path TestResults/TestResults.xcresult --format json | head -n 40
 
       # - name: Process Test Results
       #   uses: kishikawakatsumi/xcresulttool@v1
