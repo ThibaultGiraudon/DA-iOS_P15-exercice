@@ -37,6 +37,13 @@ jobs:
       - name: Listing TestResults
         run: ls TestResults/TestResults.xcresult
 
+      - name: Debug xcresulttool
+        run: |
+          pwd
+          ls -R TestResults.xcresult
+          xcrun xcresulttool get --format json --path $(pwd)/TestResults.xcresult
+
+
       # - name: Process Test Results
       #   uses: kishikawakatsumi/xcresulttool@v1
       #   with:
