@@ -34,8 +34,11 @@ jobs:
             CODE_SIGNING_ALLOWED=NO
             CODE_SIGN_IDENTITY=""
 
-      - name: Process Test Results
-        uses: kishikawakatsumi/xcresulttool@v1
-        with:
-          path: TestResults/TestResults.xcresult
-        if: success() || failure()
+      - name: Cat TestResults
+        run: cat TestResults/TestResults.xcresult
+
+      # - name: Process Test Results
+      #   uses: kishikawakatsumi/xcresulttool@v1
+      #   with:
+      #     path: TestResults/TestResults.xcresult
+      #   if: success() || failure()
