@@ -38,5 +38,4 @@ jobs:
         uses: slidoapp/xcresulttool@v3.1.0
         with:
           path: TestResults/TestResults.xcresult
-          arguments: "--legacy"
         if: success() || failure()
