@@ -34,21 +34,8 @@ jobs:
             CODE_SIGNING_ALLOWED=NO
             CODE_SIGN_IDENTITY=""
 
-      - name: Listing TestResults
-        run: ls TestResults/TestResults.xcresult
-
-      - name: Locate xcresult
-        run: |
-          echo "Listing files after build:"
-          find . -name "*.xcresult" || echo "No xcresult found"
-
-      - name: Inspect xcresult
-        run: |
-          echo "Inspecting TestResults/TestResults.xcresult"
-          xcrun xcresulttool get --path TestResults/TestResults.xcresult --format json | head -n 40
-
-      # - name: Process Test Results
-      #   uses: kishikawakatsumi/xcresulttool@v1
-      #   with:
-      #     path: TestResults/TestResults.xcresult
-      #   if: success() || failure()
+      - name: Process Test Results
+        uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          path: TestResults/TestResults.xcresult
+        if: success() || failure()
