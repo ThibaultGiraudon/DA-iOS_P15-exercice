@@ -34,8 +34,8 @@ jobs:
             CODE_SIGNING_ALLOWED=NO
             CODE_SIGN_IDENTITY=""
 
-      - name: Cat TestResults
-        run: cat TestResults/TestResults.xcresult
+      - name: Listing TestResults
+        run: ls TestResults/TestResults.xcresult
 
       # - name: Process Test Results
       #   uses: kishikawakatsumi/xcresulttool@v1
