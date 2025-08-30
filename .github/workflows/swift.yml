@@ -26,7 +26,7 @@ jobs:
         with:
           project: EPCollaboratif.xcodeproj
           scheme: EPCollaboratif
-          destination: 'id=C1DF5C2E-9D42-4592-A550-1D7DB9BBB824'
+          destination: 'platform=iOS Simulator,name=iPhone 16,OS=18.6'
           action: test
           result-bundle-path: 'TestResults/TestResults.xcresult'
           build-settings: |
